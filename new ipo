@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaX Crypto Exchange</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0b0e14;
+    color: #fff;
+}
+
+header {
+    height: 65px;
+    background: #11151d;
+    border-bottom: 1px solid #242936;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #5c8cff;
+}
+
+nav button {
+    background: transparent;
+    border: 0;
+    color: #aaa;
+    margin: 0 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+nav button:hover {
+    color: white;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #5c8cff;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+h1 {
+    margin-bottom: 25px;
+}
+
+h2 {
+    margin-bottom: 18px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: #131822;
+    border: 1px solid #252b38;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.card small {
+    color: #8992a4;
+}
+
+.balance {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.positive {
+    color: #27c784;
+}
+
+.negative {
+    color: #ff5b6e;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.primary {
+    background: #5c8cff;
+    color: white;
+}
+
+.success {
+    background: #1fa971;
+    color: white;
+}
+
+.danger {
+    background: #d94d5c;
+    color: white;
+}
+
+.secondary {
+    background: #252b38;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #131822;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #252b38;
+}
+
+th {
+    color: #8992a4;
+    font-size: 13px;
+}
+
+.coin {
+    font-weight: bold;
+}
+
+.coin span {
+    color: #8992a4;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.form {
+    max-width: 500px;
+    background: #131822;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #252b38;
+}
+
+label {
+    display: block;
+    margin: 15px 0 7px;
+    color: #aab2c1;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    background: #0d1118;
+    color: white;
+    border: 1px solid #303746;
+    border-radius: 7px;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: #5c8cff;
+}
+
+.form button {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    background: #151a24;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 15px;
+    border: 1px solid #303746;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 22px;
+    color: #aaa;
+}
+
+.deposit-address {
+    background: #0b0e14;
+    padding: 15px;
+    word-break: break-all;
+    border-radius: 8px;
+    margin: 15px 0;
+    color: #62a0ff;
+}
+
+.notice {
+    background: #252016;
+    border: 1px solid #594b25;
+    padding: 12px;
+    border-radius: 8px;
+    color: #d9c47a;
+    margin-bottom: 20px;
+}
+
+.login-screen {
+    position: fixed;
+    inset: 0;
+    background: #090c11;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.login-box {
+    width: 90%;
+    max-width: 400px;
+    background: #131822;
+    border: 1px solid #252b38;
+    border-radius: 15px;
+    padding: 35px;
+    text-align: center;
+}
+
+.login-box h1 {
+    margin-bottom: 8px;
+}
+
+.login-box p {
+    color: #8992a4;
+    margin-bottom: 25px;
+}
+
+.google {
+    background: white;
+    color: #222;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.login-box input {
+    margin-bottom: 10px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media(max-width: 800px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    nav {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+        background: transparent;
+        color: white;
+        border: none;
+        font-size: 22px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 11px 7px;
+    }
+}
+
+@media(max-width: 500px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 0 15px;
+    }
+
+    main {
+        padding: 20px 12px;
+    }
+
+    .actions {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <h1><span style="color:#5c8cff;">NovaX</span></h1>
+        <p>Secure cryptocurrency trading platform</p>
+
+        <input id="loginEmail" type="email" placeholder="Email address">
+        <input id="loginPassword" type="password" placeholder="Password">
+
+        <button class="btn primary" style="width:100%;" onclick="login()">
+            Sign In
+        </button>
+
+        <button class="btn google" onclick="googleLogin()">
+            Continue with Google
+        </button>
+
+        <p style="margin-top:20px;font-size:12px;">
+            Demo authentication only
+        </p>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">Nova<span>X</span></div>
+
+    <nav>
+        <button onclick="showPage('dashboard')">Dashboard</button>
+        <button onclick="showPage('markets')">Markets</button>
+        <button onclick="showPage('wallet')">Wallet</button>
+        <button onclick="showPage('trade')">Trade</button>
+        <button onclick="showPage('transactions')">Transactions</button>
+    </nav>
+
+    <div class="user">
+        <div class="avatar">U</div>
+        <button class="btn secondary" onclick="logout()">Logout</button>
+    </div>
+</header>
+
+<main>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
+
+<h1>Dashboard</h1>
+
+<div class="cards">
+
+<div class="card">
+<small>Total Portfolio</small>
+<div class="balance" id="totalBalance">$0.00</div>
+</div>
+
+<div class="card">
+<small>Available Balance</small>
+<div class="balance" id="availableBalance">$0.00</div>
+</div>
+
+<div class="card">
+<small>Today's P/L</small>
+<div class="balance positive">+$124.20</div>
+</div>
+
+<div class="card">
+<small>24h Change</small>
+<div class="balance positive">+3.42%</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="openDeposit()">Deposit</button>
+<button class="btn success" onclick="showPage('trade')">Buy Crypto</button>
+<button class="btn danger" onclick="openWithdraw()">Withdraw</button>
+</div>
+
+<h2>Your Assets</h2>
+
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Balance</th>
+<th>Price</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody id="assetTable"></tbody>
+</table>
+
+</section>
+
+
+<!-- MARKETS -->
+
+<section id="markets" class="page">
+
+<h1>Markets</h1>
+
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Price</th>
+<th>24h</th>
+<th>Volume</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td class="coin">Bitcoin <span>BTC</span></td>
+<td>$68,420.00</td>
+<td class="positive">+2.31%</td>
+<td>$32.4B</td>
+<td><button class="btn primary" onclick="tradeCoin('BTC')">Trade</button></td>
+</tr>
+
+<tr>
+<td class="coin">Ethereum <span>ETH</span></td>
+<td>$3,520.50</td>
+<td class="positive">+1.82%</td>
+<td>$18.2B</td>
+<td><button class="btn primary" onclick="tradeCoin('ETH')">Trade</button></td>
+</tr>
+
+<tr>
+<td class="coin">Solana <span>SOL</span></td>
+<td>$185.40</td>
+<td class="positive">+4.51%</td>
+<td>$5.7B</td>
+<td><button class="btn primary" onclick="tradeCoin('SOL')">Trade</button></td>
+</tr>
+
+<tr>
+<td class="coin">Tether <span>USDT</span></td>
+<td>$1.00</td>
+<td>0.01%</td>
+<td>$52.1B</td>
+<td><button class="btn primary" onclick="tradeCoin('USDT')">Trade</button></td>
+</tr>
+
+</tbody>
+</table>
+
+</section>
+
+
+<!-- WALLET -->
+
+<section id="wallet" class="page">
+
+<h1>Wallet</h1>
+
+<div class="actions">
+<button class="btn primary" onclick="openDeposit()">Deposit</button>
+<button class="btn danger" onclick="openWithdraw()">Withdraw</button>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Amount</th>
+<th>Value</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="walletTable"></tbody>
+</table>
+
+</section>
+
+
+<!-- TRADE -->
+
+<section id="trade" class="page">
+
+<h1>Buy & Sell Crypto</h1>
+
+<div class="form">
+
+<label>Transaction Type</label>
+
+<select id="tradeType">
+<option value="buy">Buy</option>
+<option value="sell">Sell</option>
+</select>
+
+<label>Cryptocurrency</label>
+
+<select id="tradeCoin">
+<option value="BTC">Bitcoin (BTC)</option>
+<option value="ETH">Ethereum (ETH)</option>
+<option value="SOL">Solana (SOL)</option>
+<option value="USDT">Tether (USDT)</option>
+</select>
+
+<label>Amount (USD)</label>
+
+<input id="tradeAmount" type="number" placeholder="100">
+
+<button class="btn primary" onclick="executeTrade()">
+Confirm Trade
+</button>
+
+<p style="color:#8992a4;margin-top:15px;font-size:12px;">
+Demo trading only. No real funds are transferred.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- TRANSACTIONS -->
+
+<section id="transactions" class="page">
+
+<h1>Transaction History</h1>
+
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Type</th>
+<th>Asset</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="transactionTable"></tbody>
+
+</table>
+
+</section>
+
+</main>
+
+
+<!-- DEPOSIT MODAL -->
+
+<div class="modal" id="depositModal">
+
+<div class="modal-box">
+
+<span class="close" onclick="closeModal('depositModal')">&times;</span>
+
+<h2>Deposit Crypto</h2>
+
+<div class="notice">
+Demo mode: this address is not connected to a real wallet.
+</div>
+
+<label>Asset</label>
+
+<select id="depositCoin">
+<option>BTC</option>
+<option>ETH</option>
+<option>USDT</option>
+<option>SOL</option>
+</select>
+
+<label>Network</label>
+
+<select>
+<option>Bitcoin</option>
+<option>Ethereum</option>
+<option>TRC20</option>
+<option>Solana</option>
+</select>
+
+<p style="margin-top:20px;">Deposit Address</p>
+
+<div class="deposit-address">
+DEMO_8F29X7Q2_CRYPTO_ADDRESS
+</div>
+
+<button class="btn secondary" onclick="copyAddress()">
+Copy Address
+</button>
+
+</div>
+</div>
+
+
+<!-- WITHDRAW MODAL -->
+
+<div class="modal" id="withdrawModal">
+
+<div class="modal-box">
+
+<span class="close" onclick="closeModal('withdrawModal')">&times;</span>
+
+<h2>Withdraw Crypto</h2>
+
+<div class="notice">
+Demo withdrawal. No blockchain transaction will be created.
+</div>
+
+<label>Asset</label>
+
+<select id="withdrawCoin">
+<option>BTC</option>
+<option>ETH</option>
+<option>USDT</option>
+<option>SOL</option>
+</select>
+
+<label>Destination Address</label>
+
+<input id="withdrawAddress" placeholder="Enter wallet address">
+
+<label>Amount</label>
+
+<input id="withdrawAmount" type="number" placeholder="0.00">
+
+<button class="btn danger" onclick="withdraw()">
+Confirm Withdrawal
+</button>
+
+</div>
+</div>
+
+
+<script>
+
+let loggedIn = false;
+
+let balances = {
+    BTC: 0.002,
+    ETH: 0.08,
+    SOL: 1.5,
+    USDT: 250
+};
+
+const prices = {
+    BTC: 68420,
+    ETH: 3520.50,
+    SOL: 185.40,
+    USDT: 1
+};
+
+let transactions = [];
+
+
+function login() {
+
+    const email = document.getElementById("loginEmail").value;
+
+    if (!email) {
+        alert("Enter your email address.");
+        return;
+    }
+
+    loggedIn = true;
+
+    document.getElementById("loginScreen").style.display = "none";
+
+    updateUI();
+}
+
+
+function googleLogin() {
+
+    alert("Demo Google authentication.\n\nA real Google OAuth backend is required for production.");
+
+    loggedIn = true;
+
+    document.getElementById("loginScreen").style.display = "none";
+
+    updateUI();
+}
+
+
+function logout() {
+
+    loggedIn = false;
+
+    document.getElementById("loginScreen").style.display = "flex";
+}
+
+
+function showPage(page) {
+
+    document.querySelectorAll(".page").forEach(p => {
+        p.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    updateUI();
+}
+
+
+function calculateTotal() {
+
+    let total = 0;
+
+    for (let coin in balances) {
+        total += balances[coin] * prices[coin];
+    }
+
+    return total;
+}
+
+
+function updateUI() {
+
+    const total = calculateTotal();
+
+    document.getElementById("totalBalance").innerText =
+        "$" + total.toFixed(2);
+
+    document.getElementById("availableBalance").innerText =
+        "$" + total.toFixed(2);
+
+
+    let assetHTML = "";
+    let walletHTML = "";
+
+    for (let coin in balances) {
+
+        let value = balances[coin] * prices[coin];
+
+        assetHTML += `
+        <tr>
+            <td class="coin">${coin}</td>
+            <td>${balances[coin].toFixed(6)}</td>
+            <td>$${prices[coin].toLocaleString()}</td>
+            <td>$${value.toFixed(2)}</td>
+        </tr>
+        `;
+
+        walletHTML += `
+        <tr>
+            <td class="coin">${coin}</td>
+            <td>${balances[coin].toFixed(6)}</td>
+            <td>$${value.toFixed(2)}</td>
+            <td>
+                <button class="btn primary"
+                onclick="tradeCoin('${coin}')">Trade</button>
+            </td>
+        </tr>
+        `;
+    }
+
+    document.getElementById("assetTable").innerHTML = assetHTML;
+    document.getElementById("walletTable").innerHTML = walletHTML;
+
+    updateTransactions();
+}
+
+
+function openDeposit() {
+
+    document.getElementById("depositModal")
+    .classList.add("show");
+}
+
+
+function openWithdraw() {
+
+    document.getElementById("withdrawModal")
+    .classList.add("show");
+}
+
+
+function closeModal(id) {
+
+    document.getElementById(id)
+    .classList.remove("show");
+}
+
+
+function copyAddress() {
+
+    navigator.clipboard.writeText(
+        "DEMO_8F29X7Q2_CRYPTO_ADDRESS"
+    );
+
+    alert("Demo address copied.");
+}
+
+
+function tradeCoin(coin) {
+
+    document.getElementById("tradeCoin").value = coin;
+
+    showPage("trade");
+}
+
+
+function executeTrade() {
+
+    const type =
+        document.getElementById("tradeType").value;
+
+    const coin =
+        document.getElementById("tradeCoin").value;
+
+    const usd =
+        parseFloat(
+            document.getElementById("tradeAmount").value
+        );
+
+    if (!usd || usd <= 0) {
+
+        alert("Enter a valid amount.");
+
+        return;
+    }
+
+    const cryptoAmount = usd / prices[coin];
+
+    if (type === "buy") {
+
+        balances[coin] += cryptoAmount;
+
+    } else {
+
+        if (balances[coin] < cryptoAmount) {
+
+            alert("Insufficient balance.");
+
+            return;
+        }
+
+        balances[coin] -= cryptoAmount;
+    }
+
+    transactions.unshift({
+
+        date: new Date().toLocaleString(),
+
+        type:
+            type.toUpperCase(),
+
+        coin: coin,
+
+        amount:
+            cryptoAmount.toFixed(6),
+
+        status:
+            "Completed"
+    });
+
+    alert(
+        "Demo " +
+        type.toUpperCase() +
+        " completed successfully."
+    );
+
+    document.getElementById("tradeAmount").value = "";
+
+    updateUI();
+}
+
+
+function withdraw() {
+
+    const coin =
+        document.getElementById("withdrawCoin").value;
+
+    const address =
+        document.getElementById("withdrawAddress").value;
+
+    const amount =
+        parseFloat(
+            document.getElementById("withdrawAmount").value
+        );
+
+    if (!address || !amount || amount <= 0) {
+
+        alert("Complete all fields.");
+
+        return;
+    }
+
+    if (amount > balances[coin]) {
+
+        alert("Insufficient balance.");
+
+        return;
+    }
+
+    balances[coin] -= amount;
+
+    transactions.unshift({
+
+        date: new Date().toLocaleString(),
+
+        type: "WITHDRAWAL",
+
+        coin: coin,
+
+        amount: amount,
+
+        status: "Pending"
+    });
+
+    alert(
+        "Demo withdrawal submitted successfully."
+    );
+
+    closeModal("withdrawModal");
+
+    document.getElementById("withdrawAddress").value = "";
+
+    document.getElementById("withdrawAmount").value = "";
+
+    updateUI();
+}
+
+
+function updateTransactions() {
+
+    let html = "";
+
+    transactions.forEach(tx => {
+
+        html += `
+        <tr>
+            <td>${tx.date}</td>
+            <td>${tx.type}</td>
+            <td>${tx.coin}</td>
+            <td>${tx.amount}</td>
+            <td>${tx.status}</td>
+        </tr>
+        `;
+
+    });
+
+    if (!html) {
+
+        html = `
+        <tr>
+            <td colspan="5"
+            style="text-align:center;color:#8992a4;">
+            No transactions yet
+            </td>
+        </tr>
+        `;
+
+    }
+
+    document.getElementById("transactionTable")
+        .innerHTML = html;
+}
+
+
+updateUI();
+
+</script>
+
+</body>
+</html>
